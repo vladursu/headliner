@@ -7,5 +7,6 @@ export async function getHeadlines(query) {
     method: "POST",
     body: JSON.stringify({ query }),
   });
-  response.json()["response"];
+  const responseJson = await response.json();
+  return responseJson.response;
 }

@@ -15,7 +15,7 @@ function App() {
 
   async function onClickSend() {
     setIsLoading(true);
-    response = await getHeadlines(userQuery);
+    const response = await getHeadlines(userQuery);
     setHeadlinerResponse(response);
     setIsLoading(false);
   }

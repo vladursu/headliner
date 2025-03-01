@@ -16,7 +16,7 @@ class ExtractedData(BaseModel):
 
 
 class HeadlineArticle(BaseModel):
-    author: str
+    author: Optional[str] = None
     title: str
     description: str
     url: str
