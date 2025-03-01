@@ -1,6 +1,6 @@
 import httpx
 from typing import List
-from src.clients.config import NEWSAPI_API_KEY
+from src.config import NEWSAPI_API_KEY
 
 BASE_URL = "https://newsapi.org/v2/"
 TOP_HEADLINES_ENDPOINT = "top-headlines"

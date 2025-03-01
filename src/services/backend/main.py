@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from src.clients.newsapi import get_top_headlines
+from src.agents.llm_agent import llama_agent
 
 app = FastAPI()
 
@@ -20,7 +21,8 @@ app.add_middleware(
 
 @app.get("/")
 async def main():
-    return await get_top_headlines("us", "health")
+    # return await get_top_headlines("us", "health")
+    return await llama_agent.get_completion("What can you do?")
 
 
 if __name__ == "__main__":
