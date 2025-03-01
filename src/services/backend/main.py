@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+from src.clients.newsapi import get_top_headlines
 
 app = FastAPI()
 
@@ -19,7 +20,7 @@ app.add_middleware(
 
 @app.get("/")
 async def main():
-    return {"message": "Hello World"}
+    return await get_top_headlines("us", "health")
 
 
 if __name__ == "__main__":
