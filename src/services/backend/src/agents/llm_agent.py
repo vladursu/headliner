@@ -25,6 +25,7 @@ class LLMAgent:
                     "model": self.model,
                     "messages": [{"role": "user", "content": prompt}],
                 },
+                timeout=httpx.Timeout(120),
             )
             response.raise_for_status()
             response_json = response.json()
