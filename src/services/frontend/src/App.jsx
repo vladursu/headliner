@@ -13,12 +13,13 @@ function App() {
     setUserQuery(event.target.value);
   }
 
-  function onClickSend() {
+  async function onClickSend() {
     setIsLoading(true);
-    response = getHeadlines(userQuery);
+    response = await getHeadlines(userQuery);
     setHeadlinerResponse(response);
     setIsLoading(false);
   }
+
   return (
     <div className="flex flex-col items-center bg-sky-300 h-screen">
       <div className="flex flex-col items-center m-5 w-1/2">
