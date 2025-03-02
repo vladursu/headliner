@@ -14,6 +14,12 @@ function App() {
     setUserQuery(event.target.value);
   }
 
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      onClickSend();
+    }
+  }
+
   async function onClickSend() {
     setIsLoading(true);
     const response = await getHeadlines(userQuery);
@@ -47,6 +53,7 @@ function App() {
             className="bg-slate-200"
             placeholder="What's new in tech in the London area?"
             onChange={handleQueryChange}
+            onKeyDown={handleKeyDown}
             value={userQuery}
           />
           <Button
