@@ -23,6 +23,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# TODO:
+# - add tests
+# - add tenacity retries
+# - add dockerfiles
+# - add markdown parser in FE
+
 
 @app.post("/headlines", response_model=HeadlinesResponse)
 async def main(request: HeadlinesRequest):
