@@ -7,6 +7,9 @@ export async function getHeadlines(query) {
     method: "POST",
     body: JSON.stringify({ query }),
   });
+  if (response.status >= 400) {
+    return "Failed to connect to the servers.";
+  }
   const responseJson = await response.json();
   return responseJson.response;
 }

@@ -25,34 +25,44 @@ app.add_middleware(
 
 # TODO:
 # - add tests
-# - add tenacity retries
 # - add dockerfiles
-# - add markdown parser in FE
+# - add README
 
 
 @app.post("/headlines", response_model=HeadlinesResponse)
 async def main(request: HeadlinesRequest):
-    HEADLINES_LIMIT = 10
-    extracted_data = ExtractedData.model_validate_json(
-        await llama_agent.get_completion(
-            DATA_EXTRACTION_TEMPLATE.format(user_input=request.query)
+    HEADLINES_LIMIT = 30
+    try:
+        extracted_data = ExtractedData.model_validate_json(
+            await llama_agent.get_completion(
+                DATA_EXTRACTION_TEMPLATE.format(user_input=request.query)
+            )
         )
-    )
+    except:
+        return HeadlinesResponse(
+            response="Couldn't determine topic or location, please expand on your query."
+        )
+
     headlines = await get_top_headlines(
         country=extracted_data.country, category=extracted_data.category
     )
+    if not headlines.articles:
+        return HeadlinesResponse(
+            response="There are no headlines or your query is too restrictive, please expand on your query."
+        )
+
     # Limit number of articles to avoid running out of context
     headlines.articles = headlines.articles[
         : min(HEADLINES_LIMIT, len(headlines.articles))
     ]
-    response = HeadlinesResponse(
+
+    return HeadlinesResponse(
         response=await llama_agent.get_completion(
             HEADLINES_RECOMMENDER_TEMPLATE.format(
                 news_context=headlines.model_dump_json(), user_input=request.query
             )
         )
     )
-    return response
 
 
 if __name__ == "__main__":
