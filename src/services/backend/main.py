@@ -45,13 +45,14 @@ async def main(request: HeadlinesRequest):
     headlines.articles = headlines.articles[
         : min(HEADLINES_LIMIT, len(headlines.articles))
     ]
-    return HeadlinesResponse(
+    response = HeadlinesResponse(
         response=await llama_agent.get_completion(
             HEADLINES_RECOMMENDER_TEMPLATE.format(
                 news_context=headlines.model_dump_json(), user_input=request.query
             )
         )
     )
+    return response
 
 
 if __name__ == "__main__":
