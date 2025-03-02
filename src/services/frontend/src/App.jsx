@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { getHeadlines } from "@/api";
 
 function App() {
@@ -20,12 +21,26 @@ function App() {
     setIsLoading(false);
   }
 
+  const components = {
+    h3: ({ children }) => (
+      <h3 className="text-4xl font-semibold text-slate-800 mb-3">{children}</h3>
+    ),
+    a: ({ href, children }) => (
+      <a href={href} className="text-2xl font-light text-slate-800/75">
+        {children}
+      </a>
+    ),
+    ul: ({ children }) => (
+      <ul className="list-disc pl-2 marker:text-slate-700">{children}</ul>
+    ),
+  };
+
   return (
-    <div className="flex flex-col items-center bg-sky-300 h-screen">
+    <div className="flex flex-col items-center bg-sky-300/75 h-screen">
       <div className="flex flex-col items-center m-5 w-1/2">
-        <h1 className="font-sans text-5xl font-semibold">Headliner</h1>
+        <h1 className="font-sans text-6xl font-semibold">Headliner</h1>
         <p className="italic text-lg">
-          The first place to find the news that matters.
+          The first place to find the news that matter.
         </p>
         <div className="flex flex-row gap-2 w-2/3 my-5">
           <Input
@@ -45,9 +60,13 @@ function App() {
         </div>
         <div className="w-2/3">
           {isLoading ? (
-            <Skeleton className="h-40" />
+            <Skeleton className="h-screen" />
           ) : (
-            <div className="bg-sky-300/75 p-5">{headlinerResponse}</div>
+            <div className="h-screen">
+              <ReactMarkdown components={components}>
+                {headlinerResponse}
+              </ReactMarkdown>
+            </div>
           )}
         </div>
       </div>
